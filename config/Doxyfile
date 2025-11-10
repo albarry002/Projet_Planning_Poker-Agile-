@@ -1,7 +1,7 @@
-# Doxyfile for Projet_Planning_Pocker-Agile
+# Doxyfile for Projet_Planning_Pocker-Agile-
 
 # Project name
-PROJECT_NAME           = "Projet_Planning_Poker-Agile"
+PROJECT_NAME           = "Projet_Planning_Poker-Agile-"
 
 # Project version
 PROJECT_NUMBER         = 1.0
