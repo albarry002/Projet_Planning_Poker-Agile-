@@ -1,7 +1,7 @@
-# Doxyfile for MyPythonProject
+# Doxyfile for Projet_Planning_Pocker-Agile
 
 # Project name
-PROJECT_NAME           = "Projet_Planning_Poker_Agile"
+PROJECT_NAME           = "Projet_Planning_Poker-Agile"
 
 # Project version
 PROJECT_NUMBER         = 1.0
