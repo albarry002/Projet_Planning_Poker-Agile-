@@ -29,8 +29,8 @@ GENERATE_LATEX         = NO
 GENERATE_XML           = NO
 
 # Enable inheritance diagram (requires Graphviz)
-HAVE_DOT               = NO
-UML_LOOK               = NO
+HAVE_DOT               = YES
+UML_LOOK               = YES
 
 # Set to YES to include graph in the output
 CALL_GRAPH             = YES
