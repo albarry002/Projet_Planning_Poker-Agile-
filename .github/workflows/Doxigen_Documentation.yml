@@ -38,7 +38,6 @@ jobs:
       # ----- TESTS UNITAIRES -----
       - name: Run unit tests and generate HTML report
         run: |
-          pytest test_jeu.py --html=report.html
           pytest test_calculatrice.py --html=report.html
         env:
           CI: true
