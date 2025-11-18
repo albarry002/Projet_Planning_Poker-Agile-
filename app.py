@@ -7,14 +7,13 @@ from services.session_manager import SessionManager
 
 
 #Implémentation des routes API
-
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 manager = SessionManager()
 
 # Route pour le front
 @app.route('/')
 def index():
-    return render_template("templates/index.html")
+    return render_template("index.html")
 
 # 1. Creation de la session
 @app.route('/api/session/create', methods=['POST'])
