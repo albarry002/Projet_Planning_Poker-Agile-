@@ -1,0 +1,26 @@
+{
+    "e2c4f3a2-21b8-4cbd-9f82-36d2d89d6b3e": {
+        "name": "Sprint 1 Planning",
+        "players": [
+            "Aissatou",
+            "Sabrina"
+        ],
+        "rule": "strict",
+        "backlog": [],
+        "votes": {},
+        "current_story": null,
+        "completed": []
+    },
+    "9f86d6ed-792f-496b-8241-d774ac7d1e49": {
+        "name": "Sprint 1 Planning",
+        "players": [
+            "Aissatou",
+            "Sabrina"
+        ],
+        "rule": "strict",
+        "backlog": [],
+        "votes": {},
+        "current_story": null,
+        "completed": []
+    }
+}
