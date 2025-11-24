@@ -1,0 +1,61 @@
+{
+    "c32622a4-6ef1-4528-9c43-644c721416c0": {
+        "name": "Plan Logo",
+        "players": [
+            "Amadou"
+        ],
+        "rule": "strict",
+        "backlog": [],
+        "current_story": null,
+        "votes": {},
+        "completed": [
+            null
+        ]
+    },
+    "6e513a3f-4175-4ae9-92fa-834d1272741a": {
+        "name": "Plan Architecte",
+        "players": [
+            "fall"
+        ],
+        "rule": "strict",
+        "backlog": [],
+        "current_story": null,
+        "votes": {},
+        "completed": [
+            null
+        ]
+    },
+    "fa3084bc-79da-4fb4-b500-1e27956cd36e": {
+        "name": "Plan Architecte",
+        "players": [
+            "fall"
+        ],
+        "rule": "strict",
+        "backlog": [],
+        "current_story": null,
+        "votes": {},
+        "completed": [
+            null,
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    "dae9d0c3-7419-4231-9b0f-787d99c4fd5e": {
+        "name": "plan fall",
+        "players": [
+            "assi",
+            " oumou"
+        ],
+        "rule": "strict",
+        "backlog": [],
+        "current_story": null,
+        "votes": {
+            "assi": "4",
+            "oumou": "5"
+        },
+        "completed": [],
+        "mode": "moyenne"
+    }
+}

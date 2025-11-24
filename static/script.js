@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5001/api";
+const API_URL = "https://curly-space-fortnight-976qj97g4ppjcxwr7-5001.app.github.dev/api";
 
 async function createSession() {
     const name = document.getElementById("session_name").value;
@@ -15,10 +15,25 @@ async function createSession() {
     document.getElementById("create_result").innerText = JSON.stringify(data, null, 2);
 }
 
+async function setMode() {
+    const session_id = document.getElementById("mode_session_id").value;
+    const mode = document.getElementById("mode_select").value; // "strict", "moyenne", "mediane"
+
+    const res = await fetch(`${API_URL}/session/set_mode`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ session_id, mode })
+    });
+
+    const data = await res.json();
+    document.getElementById("mode_result").innerText = JSON.stringify(data, null, 2);
+}
+
 async function vote() {
     const session_id = document.getElementById("vote_session_id").value;
     const player = document.getElementById("player_name").value;
-    const value = document.getElementById("vote_value").value;
+    const value = parseFloat(document.getElementById("vote_value").value);
+
 
     const res = await fetch(`${API_URL}/vote`, {
         method: "POST",
@@ -29,6 +44,7 @@ async function vote() {
     const data = await res.json();
     document.getElementById("vote_result").innerText = JSON.stringify(data, null, 2);
 }
+
 
 async function reveal() {
     const session_id = document.getElementById("reveal_session_id").value;

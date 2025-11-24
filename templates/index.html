@@ -31,6 +31,18 @@
     </div>
 
     <div>
+        <h3>Changer le mode de calcul</h3>
+        <input type="text" id="mode_session_id" placeholder="ID de session">
+        <select id="mode_select">
+            <option value="strict">Strict</option>
+            <option value="moyenne">Moyenne</option>
+            <option value="mediane">Médiane</option>
+        </select>
+        <button onclick="setMode()">Valider</button>
+        <pre id="mode_result"></pre>
+    </div>
+
+    <div>
         <h2>Révéler votes</h2>
         <input type="text" id="reveal_session_id" placeholder="ID session">
         <button onclick="reveal()">Révéler</button>

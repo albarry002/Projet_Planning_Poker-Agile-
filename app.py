@@ -1,5 +1,6 @@
 import sys
 import os
+from flask_cors import CORS
 # Ajouter le dossier src à la liste des chemins Python
 sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 from flask import Flask, request, jsonify, render_template
@@ -8,14 +9,17 @@ from services.session_manager import SessionManager
 
 #Implémentation des routes API
 app = Flask(__name__, template_folder="templates")
+CORS(app)
 manager = SessionManager()
 
 # Route pour le front
+
 @app.route('/')
 def index():
     return render_template("index.html")
 
 # 1. Creation de la session
+
 @app.route('/api/session/create', methods=['POST'])
 def create_session():
     data = request.json
@@ -92,7 +96,19 @@ def save_session():
     return jsonify({"message": "Session sauvegardée"})
 
 
-# 7. Reprendre une partie
+# 7. Modifier le mode de calcul
+
+@app.route('/api/session/set_mode', methods=['POST'])
+def set_mode():
+    data = request.json
+    session_id = data.get("session_id")
+    mode = data.get("mode")
+
+    success = manager.set_mode(session_id, mode)
+    return jsonify({"success": success, "mode": mode})
+
+
+# 8. Reprendre une partie
 
 @app.route('/api/session/resume', methods=['GET'])
 def resume():
@@ -101,4 +117,4 @@ def resume():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    app.run(debug=True, host='0.0.0.0', port=5000)

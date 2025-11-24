@@ -1,6 +1,7 @@
 import json
 import uuid
 import os
+import statistics
 
 class SessionManager:
     def __init__(self):
@@ -23,7 +24,7 @@ class SessionManager:
             json.dump(self.sessions, f, indent=4)
 
     # 1️. Créer une session
-    def create_session(self, name, players, rule="strict"):
+    def create_session(self, name, players, rule="moyenne"):
         session_id = str(uuid.uuid4())
         self.sessions[session_id] = {
             "name": name,
@@ -64,6 +65,14 @@ class SessionManager:
         self._save()
         return True
 
+    # 5.1 Modifier les regles de vote
+    def set_mode(self, session_id, mode):
+        if session_id not in self.sessions:
+            return False
+        self.sessions[session_id]["mode"] = mode
+        self._save()
+        return True
+
     # 5️. Révéler votes (mode strict)
     def reveal_votes(self, session_id):
         if session_id not in self.sessions:
@@ -71,22 +80,54 @@ class SessionManager:
 
         session = self.sessions[session_id]
         votes = session["votes"]
-        result = {"votes": votes, "validated": False}
+        players = session["players"]
+        mode = session.get("mode", "moyenne")
+
+        result = {
+            "votes": votes,
+            "validated": False,
+            "mode": mode,
+            "calculated_value": None
+        }
 
         # Vérifier que tous les joueurs ont voté
-        if len(votes) == len(session["players"]):
-            values = list(votes.values())
-            # Vérifier unanimité
+        if len(votes) != len(players):
+            return result
+
+        values = list(votes.values())
+
+        # MODE STRICT ------------
+        if mode == "strict":
             if all(v == values[0] for v in values):
                 result["validated"] = True
-                # Ajouter story aux complétées
-                session["completed"].append(session["current_story"])
-                # Passer à la story suivante
-                backlog = session["backlog"]
-                remaining = [b for b in backlog if b not in session["completed"]]
-                session["current_story"] = remaining[0] if remaining else None
-                session["votes"] = {}  # réinitialiser votes
-                self._save()
+                result["calculated_value"] = values[0]
+            else:
+                result["calculated_value"] = "Conflit : votes divergents"
+                return result  # pas de passage à la story suivante
+
+        # MODE MOYENNE ------------
+        elif mode == "moyenne":
+            avg = round(sum(values) / len(values), 2)
+            result["validated"] = True
+            result["calculated_value"] = avg
+
+        # MODE MÉDIANE ------------
+        elif mode == "mediane":
+            med = statistics.median(values)
+            result["validated"] = True
+            result["calculated_value"] = med
+
+        # Après calcul → valider et passer à la story suivante
+        if result["validated"]:
+            session["completed"].append(session["current_story"])
+
+            backlog = session["backlog"]
+            remaining = [b for b in backlog if b not in session["completed"]]
+
+            session["current_story"] = remaining[0] if remaining else None
+
+            session["votes"] = {}  # reset votes
+            self._save()
 
         return result
 
