@@ -7,8 +7,8 @@ class SessionManager:
     def __init__(self):
         os.makedirs("data", exist_ok=True)
         self.save_path = "data/save_sessions.json"
-        
-        # Charger fichier si existe
+
+        # Charger les sessions si le fichier existe
         if os.path.exists(self.save_path):
             with open(self.save_path, "r") as f:
                 try:
@@ -18,27 +18,35 @@ class SessionManager:
         else:
             self.sessions = {}
 
-    #  Sauvegarde JSON
+    # Sauvegarde JSON
     def _save(self):
         with open(self.save_path, "w") as f:
             json.dump(self.sessions, f, indent=4)
 
-    # 1️. Créer une session
-    def create_session(self, name, players, rule="moyenne"):
+    # 1. Créer une session avec backlog par défaut
+    def create_session(self, name, players, mode="moyenne", default_backlog=None):
+        """
+        Crée une session avec un backlog par défaut si aucun backlog n'est fourni.
+        """
         session_id = str(uuid.uuid4())
+
+        if default_backlog is None:
+            default_backlog = ["Story 1", "Story 2", "Story 3"]  # Backlog par défaut
+
         self.sessions[session_id] = {
             "name": name,
             "players": players,
-            "rule": rule,
-            "backlog": [],
-            "current_story": None,
+            "mode": mode,  # "strict", "moyenne", "mediane"
+            "backlog": default_backlog,
+            "current_story": default_backlog[0] if default_backlog else None,
             "votes": {},
             "completed": []
         }
+
         self._save()
         return session_id
 
-    # 2️. Rejoindre une session
+    # 2. Rejoindre une session
     def join_session(self, session_id, pseudo):
         if session_id not in self.sessions:
             return False
@@ -47,36 +55,32 @@ class SessionManager:
             self._save()
         return True
 
-    # 3️. Charger backlog
-    def load_backlog(self, session_id, backlog):
-        if session_id not in self.sessions:
-            return False
-        self.sessions[session_id]["backlog"] = backlog
-        if backlog:
-            self.sessions[session_id]["current_story"] = backlog[0]
-        self._save()
-        return True
-
-    # 4️. Voter
+    # 3. Voter
     def vote(self, session_id, player, value):
         if session_id not in self.sessions:
             return False
+        if player not in self.sessions[session_id]["players"]:
+            return False
+
         self.sessions[session_id]["votes"][player] = value
         self._save()
         return True
 
-    # 5.1 Modifier les regles de vote
+    # 4. Modifier le mode de vote
     def set_mode(self, session_id, mode):
         if session_id not in self.sessions:
             return False
+        if mode not in ["strict", "moyenne", "mediane"]:
+            return False
+
         self.sessions[session_id]["mode"] = mode
         self._save()
         return True
 
-    # 5️. Révéler votes (mode strict)
+    # 5. Révéler les votes et calculer la valeur
     def reveal_votes(self, session_id):
         if session_id not in self.sessions:
-            return {"votes": {}, "validated": False}
+            return {"votes": {}, "validated": False, "mode": None, "calculated_value": None}
 
         session = self.sessions[session_id]
         votes = session["votes"]
@@ -96,28 +100,28 @@ class SessionManager:
 
         values = list(votes.values())
 
-        # MODE STRICT ------------
+        # --- MODE STRICT ---
         if mode == "strict":
             if all(v == values[0] for v in values):
                 result["validated"] = True
                 result["calculated_value"] = values[0]
             else:
                 result["calculated_value"] = "Conflit : votes divergents"
-                return result  # pas de passage à la story suivante
+                return result
 
-        # MODE MOYENNE ------------
+        # --- MODE MOYENNE ---
         elif mode == "moyenne":
             avg = round(sum(values) / len(values), 2)
             result["validated"] = True
             result["calculated_value"] = avg
 
-        # MODE MÉDIANE ------------
+        # --- MODE MÉDIANE ---
         elif mode == "mediane":
             med = statistics.median(values)
             result["validated"] = True
             result["calculated_value"] = med
 
-        # Après calcul → valider et passer à la story suivante
+        # Si validé → avancer dans le backlog
         if result["validated"]:
             session["completed"].append(session["current_story"])
 
@@ -126,16 +130,12 @@ class SessionManager:
 
             session["current_story"] = remaining[0] if remaining else None
 
-            session["votes"] = {}  # reset votes
+            # Reset votes
+            session["votes"] = {}
             self._save()
 
         return result
 
-    # 6️. Sauvegarder session
-    def save_session(self, session_id):
-        self._save()
-        return True
-
-    # 7️. Reprendre session
-    def resume_session(self):
+    # 6. Reprendre toutes les sessions
+    def resume_sessions(self):
         return self.sessions

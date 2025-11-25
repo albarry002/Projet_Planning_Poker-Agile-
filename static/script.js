@@ -1,4 +1,5 @@
-const API_URL = "https://curly-space-fortnight-976qj97g4ppjcxwr7-5001.app.github.dev/api";
+
+const API_URL = "https://redesigned-carnival-4jqgw7jp994g3pv7-5001.app.github.dev/api";
 
 async function createSession() {
     const name = document.getElementById("session_name").value;
