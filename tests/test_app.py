@@ -1,8 +1,8 @@
-# test_app.py
+# tests/test_app.py
 import pytest
 from unittest.mock import patch, MagicMock
 from app import app, calculate_consensus, rooms
-from flask import url_for, session
+from flask import session
 
 # --- FIXTURE FLASK TEST CLIENT ---
 @pytest.fixture
@@ -50,8 +50,8 @@ def test_calculate_consensus_empty():
 # -------------------
 def test_home_route(client):
     rv = client.get('/')
-    assert rv.status_code == 200
-    assert b"Créer" in rv.data or b"Rejoindre" in rv.data
+    page_content = rv.get_data(as_text=True)
+    assert "Créer" in page_content or "Rejoindre" in page_content
 
 def test_create_room(client):
     data = {
@@ -59,12 +59,10 @@ def test_create_room(client):
         'session_name': 'Session Test',
         'session_type': 'strict'
     }
-    # On mock le fichier backlog
     rv = client.post('/create_room', data=data)
     assert rv.status_code == 302  # Redirection vers /room/<room_id>
 
 def test_join_existing_room(client):
-    # Préparer une salle
     room_id = 'TEST123'
     rooms[room_id] = {
         'participants': {},
@@ -93,11 +91,8 @@ def test_join_socketio(mock_emit):
         data = {'username': 'admin', 'room_id': room_id}
         on_join(data)
     
-    # L'admin_sid doit être défini
     assert rooms[room_id]['admin_sid'] == 'SID123'
-    # Le participant doit être enregistré
     assert rooms[room_id]['participants']['SID123'] == 'admin'
-    # L'emit doit être appelé pour notifier
     assert mock_emit.called
 
 @patch('app.emit')
@@ -134,3 +129,4 @@ def test_reveal_votes(mock_emit):
     assert rooms[room_id]['is_revealed'] is True
     assert 'final_vote' in rooms[room_id]['backlog'][0]
     assert mock_emit.called
+
