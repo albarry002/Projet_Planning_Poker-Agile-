@@ -1,7 +1,7 @@
 # tests/test_app.py
 import pytest
-from unittest.mock import patch, MagicMock
-from app import calculate_consensus, rooms, app
+from unittest.mock import patch
+from app import calculate_consensus, rooms, app, socketio
 
 # -----------------------------
 # Tests de la fonction calculate_consensus
@@ -44,57 +44,51 @@ def test_calculate_consensus_non_numeric():
     assert "Aucun vote" in details
 
 # -----------------------------
-# Tests SocketIO (avec contexte Flask)
+# Tests SocketIO avec test_client
 # -----------------------------
 
-@patch('app.emit')
-def test_submit_vote_socketio(mock_emit):
-    room_id = 'ROOM2'
+def test_join_and_submit_vote():
+    room_id = 'ROOM1'
     rooms[room_id] = {
-        'participants': {'SID456': 'bob'},
+        'participants': {},
         'admin_name': 'admin',
-        'admin_sid': 'ADMIN123',
+        'admin_sid': None,
         'backlog': [{'name': 'Tâche 1', 'description': 'desc', 'votes': {}}],
         'votes': {},
         'is_started': True,
         'is_revealed': False
     }
 
-    mock_request = MagicMock()
-    mock_request.sid = 'SID456'
+    # Créer un client SocketIO pour simuler la connexion
+    with app.app_context():
+        client = socketio.test_client(app)
+        
+        # Joindre la salle
+        client.emit('join', {'username': 'bob', 'room_id': room_id})
+        assert 'bob' in rooms[room_id]['participants'].values()
 
-    with app.test_request_context():
-        with patch('app.request', mock_request):
-            from app import on_submit_vote
-            data = {'username': 'bob', 'room_id': room_id, 'vote': '5'}
-            on_submit_vote(data)
-            assert rooms[room_id]['votes']['bob'] == '5'
-            mock_emit.assert_called()
+        # Soumettre un vote
+        client.emit('submit_vote', {'username': 'bob', 'room_id': room_id, 'vote': '5'})
+        assert rooms[room_id]['votes']['bob'] == '5'
 
-# Test pour la fonction request_backlog_download
-@patch('app.emit')
-def test_request_backlog_download_socketio(mock_emit):
-    room_id = 'ROOM3'
+def test_request_backlog_download():
+    room_id = 'ROOM2'
     rooms[room_id] = {
         'participants': {},
         'admin_name': 'admin',
-        'admin_sid': 'ADMIN123',
+        'admin_sid': None,
         'backlog': [{'name': 'Story 1', 'description': 'desc'}],
         'votes': {},
         'is_started': True
     }
 
-    mock_request = MagicMock()
-    mock_request.sid = 'ADMIN123'
+    with app.app_context():
+        client = socketio.test_client(app)
 
-    with app.test_request_context():
-        with patch('app.request', mock_request):
-            from app import on_request_backlog_download
-            data = {'room_id': room_id}
-            on_request_backlog_download(data)
-            mock_emit.assert_called_with(
-                'backlog_updated',
-                {'backlog_data': rooms[room_id]['backlog']},
-                room='ADMIN123'
-            )
+        # Émettre l'événement pour télécharger le backlog
+        client.emit('request_backlog_download', {'room_id': room_id})
 
+        # Le client devrait recevoir un événement 'backlog_updated'
+        received = client.get_received()
+        assert any(msg['name'] == 'backlog_updated' for msg in received)
+        assert received[0]['args'][0]['backlog_data'] == rooms[room_id]['backlog']
