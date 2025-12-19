@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Salle de Poker - {{ room_id }}</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+        const ROOM_ID = "{{ room_id }}";
+        const USERNAME = "{{ username }}"; 
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/room.css') }}">
+</head>
+<body>
+    <header>
+        <h2><span id="session-title">Chargement...</span> <span id="id-session">ID: {{ room_id }}</span></h2>
+    </header>
+
+    <div id="start-controls">
+        <button id="start-session-btn" class="admin-control">Démarrer la Session</button>
+        <label>
+            <input type="checkbox" id="use-timer-checkbox"> Utiliser un Timer
+        </label>
+        <div id="timer-input-group" style="display:none;">
+            <label for="timer-duration">Durée :</label>
+            <input type="number" id="timer-duration" value="60" min="10">
+        </div>
+    </div>
+    
+    <div id="main-grid">
+        
+        <div id="col-participants">
+            <h3>Participants (<span id="participant-count">0</span>)</h3>
+            <ul id="participants-list"></ul>
+            <h3>Journal d'Activité</h3>
+            <div id="messages"></div>
+        </div>
+        
+        <div id="col-game">
+            <section id="story-details">
+                <div id="block-title">
+                    <h2>Tâche en Cours (<span id="current-index">0</span>/<span id="total-tasks">0</span>)</h2>
+                    <h3 id="story-name">Chargement de la tâche...</h3>
+                </div>
+                <p id="story-description">Description...</p>
+                <div id="consensus-result"></div>
+            </section>
+            
+            <section id="revealed-votes">
+                <h3>Estimations des Participants :</h3>
+                <div id="other-votes"></div>
+            </section>
+            
+            <section id="my-vote">
+                <h3>Votre Vote :</h3>
+                <div id="card-deck"></div>
+            </section>
+
+            <section id="game-controls" class="admin-control">
+                <button id="reveal-votes-btn" disabled>Révéler</button>
+                <button id="restart-vote-btn" disabled>Relancer le Vote</button>
+                <button id="next-task-btn" disabled>Tâche Suivante</button>
+                <button id="download-backlog-btn">Télécharger les Estimations</button>
+            </section>
+        </div>
+        
+        <div id="col-backlog">
+            <section id="timer-section">
+                <h2>Timer</h2>
+                <div id="timer-display">
+                    <span id="time-remaining">--:--</span>
+                </div>
+            </section>
+            
+            <section id="backlog-list-section">
+                <h2>Backlog Total</h2>
+                <ul id="backlog-list"></ul>
+            </section>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/logic.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</body>
+</html>
