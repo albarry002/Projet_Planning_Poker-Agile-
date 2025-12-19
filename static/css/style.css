@@ -75,6 +75,11 @@ h2 {
     }
 }
 
+.title {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
 .form-box {
     background: var(--surface);
     border-radius: 16px;
@@ -280,4 +285,35 @@ button[type="submit"]:active {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--border-color);
+}
+
+
+
+
+
+/* Fichier : static/css/style.css */
+
+.toggle-text {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.toggle-text a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.toggle-text a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* On s'assure que le container ne fait qu'une seule colonne pour empiler les boîtes au centre */
+.container {
+    max-width: 500px; /* Plus étroit pour un formulaire unique */
+    grid-template-columns: 1fr !important; 
 }
