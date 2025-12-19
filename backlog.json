@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "name": "Création d’une partie",
+    "description": "En tant que Scrum Master, je veux pouvoir créer une nouvelle session de Planning Poker pour estimer le backlog avec mon équipe.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Le nom de la session est obligatoire",
+      "Je peux choisir une règle de calcul (strict, moyenne, médiane, majorité)",
+      "Je peux saisir une liste de joueurs"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Saisie des joueurs",
+    "description": "En tant que joueur, je veux pouvoir saisir mon pseudo pour participer à la session.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Chaque pseudo doit être unique dans une session",
+      "Le nombre de joueurs est au minimum 2",
+      "Je peux rejoindre une session existante avec un ID de session"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Import du backlog JSON",
+    "description": "En tant que Scrum Master, je veux importer un fichier JSON contenant les user stories pour les afficher dans l’application.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Le fichier est au format JSON valide",
+      "Le fichier contient une liste de stories avec au moins un titre",
+      "Les stories importées sont visibles dans l’interface"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Vote des joueurs",
+    "description": "En tant que joueur, je veux pouvoir choisir une carte de valeur pour voter sur la complexité d’une story.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Je peux choisir une carte parmi 1, 2, 3, 5, 8, 13, 21, ?, café",
+      "Mon vote reste caché tant que les votes ne sont pas révélés",
+      "Je peux changer mon vote tant que la story n’est pas validée"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Calcul et validation des votes",
+    "description": "En tant que Scrum Master, je veux voir un résumé des votes pour décider de la valeur finale d’une story.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "L’application calcule la valeur finale selon la règle choisie",
+      "Les votes individuels des joueurs sont affichés après révélation",
+      "Je peux marquer une estimation comme validée"
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Création d’une partie",
+    "description": "En tant que Scrum Master, je veux pouvoir créer une nouvelle session de Planning Poker pour estimer le backlog avec mon équipe.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Le nom de la session est obligatoire",
+      "Je peux choisir une règle de calcul (strict, moyenne, médiane, majorité)",
+      "Je peux saisir une liste de joueurs"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Saisie des joueurs",
+    "description": "En tant que joueur, je veux pouvoir saisir mon pseudo pour participer à la session.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Chaque pseudo doit être unique dans une session",
+      "Le nombre de joueurs est au minimum 2",
+      "Je peux rejoindre une session existante avec un ID de session"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Import du backlog JSON",
+    "description": "En tant que Scrum Master, je veux importer un fichier JSON contenant les user stories pour les afficher dans l’application.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Le fichier est au format JSON valide",
+      "Le fichier contient une liste de stories avec au moins un titre",
+      "Les stories importées sont visibles dans l’interface"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Vote des joueurs",
+    "description": "En tant que joueur, je veux pouvoir choisir une carte de valeur pour voter sur la complexité d’une story.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Je peux choisir une carte parmi 1, 2, 3, 5, 8, 13, 21, ?, café",
+      "Mon vote reste caché tant que les votes ne sont pas révélés",
+      "Je peux changer mon vote tant que la story n’est pas validée"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Calcul et validation des votes",
+    "description": "En tant que Scrum Master, je veux voir un résumé des votes pour décider de la valeur finale d’une story.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "L’application calcule la valeur finale selon la règle choisie",
+      "Les votes individuels des joueurs sont affichés après révélation",
+      "Je peux marquer une estimation comme validée"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Création d’une partie",
+    "description": "En tant que Scrum Master, je veux pouvoir créer une nouvelle session de Planning Poker pour estimer le backlog avec mon équipe.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Le nom de la session est obligatoire",
+      "Je peux choisir une règle de calcul (strict, moyenne, médiane, majorité)",
+      "Je peux saisir une liste de joueurs"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Saisie des joueurs",
+    "description": "En tant que joueur, je veux pouvoir saisir mon pseudo pour participer à la session.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Chaque pseudo doit être unique dans une session",
+      "Le nombre de joueurs est au minimum 2",
+      "Je peux rejoindre une session existante avec un ID de session"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Import du backlog JSON",
+    "description": "En tant que Scrum Master, je veux importer un fichier JSON contenant les user stories pour les afficher dans l’application.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Le fichier est au format JSON valide",
+      "Le fichier contient une liste de stories avec au moins un titre",
+      "Les stories importées sont visibles dans l’interface"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Vote des joueurs",
+    "description": "En tant que joueur, je veux pouvoir choisir une carte de valeur pour voter sur la complexité d’une story.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Je peux choisir une carte parmi 1, 2, 3, 5, 8, 13, 21, ?, café",
+      "Mon vote reste caché tant que les votes ne sont pas révélés",
+      "Je peux changer mon vote tant que la story n’est pas validée"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Calcul et validation des votes",
+    "description": "En tant que Scrum Master, je veux voir un résumé des votes pour décider de la valeur finale d’une story.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "L’application calcule la valeur finale selon la règle choisie",
+      "Les votes individuels des joueurs sont affichés après révélation",
+      "Je peux marquer une estimation comme validée"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Création d’une partie",
+    "description": "En tant que Scrum Master, je veux pouvoir créer une nouvelle session de Planning Poker pour estimer le backlog avec mon équipe.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Le nom de la session est obligatoire",
+      "Je peux choisir une règle de calcul (strict, moyenne, médiane, majorité)",
+      "Je peux saisir une liste de joueurs"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Saisie des joueurs",
+    "description": "En tant que joueur, je veux pouvoir saisir mon pseudo pour participer à la session.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Chaque pseudo doit être unique dans une session",
+      "Le nombre de joueurs est au minimum 2",
+      "Je peux rejoindre une session existante avec un ID de session"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Import du backlog JSON",
+    "description": "En tant que Scrum Master, je veux importer un fichier JSON contenant les user stories pour les afficher dans l’application.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Le fichier est au format JSON valide",
+      "Le fichier contient une liste de stories avec au moins un titre",
+      "Les stories importées sont visibles dans l’interface"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Vote des joueurs",
+    "description": "En tant que joueur, je veux pouvoir choisir une carte de valeur pour voter sur la complexité d’une story.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "Je peux choisir une carte parmi 1, 2, 3, 5, 8, 13, 21, ?, café",
+      "Mon vote reste caché tant que les votes ne sont pas révélés",
+      "Je peux changer mon vote tant que la story n’est pas validée"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Calcul et validation des votes",
+    "description": "En tant que Scrum Master, je veux voir un résumé des votes pour décider de la valeur finale d’une story.",
+    "priorite": "Haute",
+    "acceptance_criteria": [
+      "L’application calcule la valeur finale selon la règle choisie",
+      "Les votes individuels des joueurs sont affichés après révélation",
+      "Je peux marquer une estimation comme validée"
+    ]
+  }
+]
