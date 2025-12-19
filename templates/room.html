@@ -1,76 +1,143 @@
 <!DOCTYPE html>
+<!--
+@file room.html
+@brief Interface principale d'une salle de Planning Poker
+
+Cette page représente la salle de jeu temps réel.
+Elle affiche les participants, la tâche courante,
+les votes, le backlog et les contrôles administrateur.
+
+Les interactions temps réel sont gérées via Socket.IO
+et la logique est répartie entre logic.js et main.js.
+-->
+
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+
+    <!-- Titre dynamique avec l'ID de la salle -->
     <title>Salle de Poker - {{ room_id }}</title>
+
+    <!-- Librairie Socket.IO pour la communication temps réel -->
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+    <!-- Variables globales injectées par Flask -->
     <script>
+        /**
+         * @const ROOM_ID
+         * @brief Identifiant unique de la salle Planning Poker
+         */
         const ROOM_ID = "{{ room_id }}";
+
+        /**
+         * @const USERNAME
+         * @brief Pseudo du participant connecté
+         */
         const USERNAME = "{{ username }}"; 
     </script>
+
+    <!-- Feuille de style spécifique à la salle -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/room.css') }}">
 </head>
+
 <body>
+
+    <!-- ===================== EN-TÊTE ===================== -->
     <header>
-        <h2><span id="session-title">Chargement...</span> <span id="id-session">ID: {{ room_id }}</span></h2>
+        <h2>
+            <span id="session-title">Chargement...</span>
+            <span id="id-session">ID: {{ room_id }}</span>
+        </h2>
     </header>
 
+    <!-- ===================== CONTRÔLES DE DÉMARRAGE (ADMIN) ===================== -->
     <div id="start-controls">
-        <button id="start-session-btn" class="admin-control">Démarrer la Session</button>
+        <!-- Bouton réservé à l'administrateur -->
+        <button id="start-session-btn" class="admin-control">
+            Démarrer la Session
+        </button>
+
+        <!-- Activation optionnelle du timer -->
         <label>
-            <input type="checkbox" id="use-timer-checkbox"> Utiliser un Timer
+            <input type="checkbox" id="use-timer-checkbox">
+            Utiliser un Timer
         </label>
+
+        <!-- Paramétrage de la durée du timer -->
         <div id="timer-input-group" style="display:none;">
             <label for="timer-duration">Durée :</label>
             <input type="number" id="timer-duration" value="60" min="10">
         </div>
     </div>
-    
+
+    <!-- ===================== GRILLE PRINCIPALE ===================== -->
     <div id="main-grid">
-        
+
+        <!-- ===== COLONNE PARTICIPANTS & JOURNAL ===== -->
         <div id="col-participants">
-            <h3>Participants (<span id="participant-count">0</span>)</h3>
+            <h3>
+                Participants (<span id="participant-count">0</span>)
+            </h3>
             <ul id="participants-list"></ul>
+
             <h3>Journal d'Activité</h3>
             <div id="messages"></div>
         </div>
-        
+
+        <!-- ===== COLONNE JEU ===== -->
         <div id="col-game">
+
+            <!-- Détails de la tâche courante -->
             <section id="story-details">
                 <div id="block-title">
-                    <h2>Tâche en Cours (<span id="current-index">0</span>/<span id="total-tasks">0</span>)</h2>
+                    <h2>
+                        Tâche en Cours
+                        (<span id="current-index">0</span>/<span id="total-tasks">0</span>)
+                    </h2>
                     <h3 id="story-name">Chargement de la tâche...</h3>
                 </div>
+
                 <p id="story-description">Description...</p>
+
+                <!-- Résultat final du consensus -->
                 <div id="consensus-result"></div>
             </section>
-            
+
+            <!-- Votes révélés -->
             <section id="revealed-votes">
                 <h3>Estimations des Participants :</h3>
                 <div id="other-votes"></div>
             </section>
-            
+
+            <!-- Zone de vote du participant -->
             <section id="my-vote">
                 <h3>Votre Vote :</h3>
                 <div id="card-deck"></div>
             </section>
 
+            <!-- Contrôles réservés à l'administrateur -->
             <section id="game-controls" class="admin-control">
                 <button id="reveal-votes-btn" disabled>Révéler</button>
                 <button id="restart-vote-btn" disabled>Relancer le Vote</button>
                 <button id="next-task-btn" disabled>Tâche Suivante</button>
-                <button id="download-backlog-btn">Télécharger les Estimations</button>
+                <button id="download-backlog-btn">
+                    Télécharger les Estimations
+                </button>
             </section>
         </div>
-        
+
+        <!-- ===== COLONNE BACKLOG & TIMER ===== -->
         <div id="col-backlog">
+
+            <!-- Affichage du timer -->
             <section id="timer-section">
                 <h2>Timer</h2>
                 <div id="timer-display">
                     <span id="time-remaining">--:--</span>
                 </div>
             </section>
-            
+
+            <!-- Backlog complet -->
             <section id="backlog-list-section">
                 <h2>Backlog Total</h2>
                 <ul id="backlog-list"></ul>
@@ -78,7 +145,9 @@
         </div>
     </div>
 
+    <!-- Scripts applicatifs -->
     <script src="{{ url_for('static', filename='js/logic.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+
 </body>
 </html>
