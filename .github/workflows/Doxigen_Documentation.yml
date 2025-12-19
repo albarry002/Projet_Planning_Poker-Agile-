@@ -36,11 +36,11 @@ jobs:
           pip install pytest pytest-html
 
       # ----- TESTS UNITAIRES -----
-     # - name: Run unit tests and generate HTML report
-      #  run: |
-       #   pytest test_calculatrice.py --html=report.html
-       # env:
-        #  CI: true
+      - name: Run unit tests and generate HTML report
+        run: |
+          pytest test_calculatrice.py --html=report.html
+        env:
+          CI: true
 
       # ----- DOXYGEN -----
       - name: Generate Doxygen documentation
