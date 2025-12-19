@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+@file home.html
+@brief Page d'accueil de l'application Planning Poker
+
+Cette page permet :
+1. De créer une nouvelle session de Planning Poker
+   - En spécifiant le nom de la session
+   - Le pseudo de l'administrateur
+   - La règle de consensus
+   - Le backlog (fichier JSON)
+2. De rejoindre une session existante
+   - En indiquant l'ID de la salle et son pseudo
+
+Le front-end envoie les formulaires vers Flask
+(et ensuite Socket.IO gère les interactions en temps réel).
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Planning Poker - Accueil</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        <h1>♠️ Bienvenue au Planning Poker en Ligne</h1>
+        
+        <div class="container">
+            <div id="create-box" class="form-box">
+                <h2 class="title">Créer une Nouvelle Session</h2>
+                <form method="POST" action="{{ url_for('create_room') }}" enctype="multipart/form-data">
+                    
+                    <label for="session-name">Nom de la Session :</label>
+                    <input type="text" id="session-name" name="session_name" placeholder="Ex: Sprint 3 - Core Features" required>
+                    
+                    <label for="admin-name">Nom de l'Admin :</label>
+                    <input type="text" id="admin-name" name="username" placeholder="Ex: Bob (Scrum Master)" required>
+
+                    <label for="session-type">Règles de Consensus :</label>
+                    <select id="session-type" name="session_type" required>
+                        <option value="strict">Strict</option>
+                        <option value="median">Médiane</option>
+                        <option value="average">Moyenne</option>
+                    </select>
+                    
+                    <label for="backlog-file">Charger le Backlog (Fichier JSON) :</label>
+                    <input type="file" id="backlog-file" name="backlog_file" accept=".json" required>
+                    
+                    <button type="submit">Créer et Entrer</button>
+                    <p class="toggle-text">Déjà un ID ? <a href="#" id="show-join">Rejoindre une session</a></p>
+                </form>
+            </div>
+            
+            <div id="join-box" class="form-box" style="display: none;">
+                <h2 class="title">Rejoindre une Session Existante</h2>
+                <form method="POST" action="{{ url_for('join_existing_room') }}">
+                    
+                    <label for="join-session-name">Nom de la Session (Optionnel) :</label>
+                    <input type="text" id="join-session-name" name="session_name" placeholder="Ex: Sprint 3">
+                    
+                    <label for="room-id">ID de la Session :</label>
+                    <input type="text" id="room-id" name="room_id" placeholder="Ex: 5D7B" required>
+                    
+                    <label for="join-username">Votre Pseudo :</label>
+                    <input type="text" id="join-username" name="username" placeholder="Ex: Alice" required>
+                    
+                    <button type="submit">Rejoindre</button>
+                    <p class="toggle-text">Besoin de créer ? <a href="#" id="show-create">Créer une session</a></p>
+                </form>
+            </div>
+                
+        </div>
+        <script>
+            // Passer l'ID de la salle et le nom d'utilisateur à JavaScript
+            const ROOM_ID = "{{ room_id }}";
+            const USERNAME = "{{ username }}";
+            const createBox = document.getElementById('create-box');
+            const joinBox = document.getElementById('join-box');
+            const showJoin = document.getElementById('show-join');
+            const showCreate = document.getElementById('show-create');
+
+            showJoin.addEventListener('click', (e) => {
+                e.preventDefault();
+                createBox.style.display = 'none';
+                joinBox.style.display = 'flex';
+            });
+
+            showCreate.addEventListener('click', (e) => {
+                e.preventDefault();
+                joinBox.style.display = 'none';
+                createBox.style.display = 'flex';
+            });
+        </script>
+    </body>
+</html>
