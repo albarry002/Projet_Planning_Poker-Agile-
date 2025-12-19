@@ -38,9 +38,10 @@ jobs:
       # ----- TESTS UNITAIRES -----
       - name: Run unit tests and generate HTML report
         run: |
-          pytest tests/test_app.py --html=report.html
+          PYTHONPATH=$PWD pytest tests/test_app.py --html=report.html
         env:
           CI: true
+
 
       # ----- DOXYGEN -----
       - name: Generate Doxygen documentation
