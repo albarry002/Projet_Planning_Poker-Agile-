@@ -10,7 +10,7 @@ PROJECT_NUMBER         = 1.0
 OUTPUT_DIRECTORY       = documentation
 
 # Source code directory
-INPUT                  = Projet_Planning_Poker-Agile-
+INPUT                  = src
 
 # Recurse through all subdirectories
 RECURSIVE              = YES
