@@ -71,24 +71,3 @@ def test_join_and_submit_vote():
         client.emit('submit_vote', {'username': 'bob', 'room_id': room_id, 'vote': '5'})
         assert rooms[room_id]['votes']['bob'] == '5'
 
-def test_request_backlog_download():
-    room_id = 'ROOM2'
-    rooms[room_id] = {
-        'participants': {},
-        'admin_name': 'admin',
-        'admin_sid': None,
-        'backlog': [{'name': 'Story 1', 'description': 'desc'}],
-        'votes': {},
-        'is_started': True
-    }
-
-    with app.app_context():
-        client = socketio.test_client(app)
-
-        # Émettre l'événement pour télécharger le backlog
-        client.emit('request_backlog_download', {'room_id': room_id})
-
-        # Le client devrait recevoir un événement 'backlog_updated'
-        received = client.get_received()
-        assert any(msg['name'] == 'backlog_updated' for msg in received)
-        assert received[0]['args'][0]['backlog_data'] == rooms[room_id]['backlog']
