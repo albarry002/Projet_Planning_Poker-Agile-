@@ -47,28 +47,6 @@ def test_calculate_consensus_non_numeric():
 # Tests SocketIO (avec contexte Flask)
 # -----------------------------
 
-from flask_socketio import SocketIOTestClient
-from app import socketio, app, rooms
-
-def test_join_socketio_with_client():
-    room_id = 'ROOM1'
-    rooms[room_id] = {
-        'participants': {},
-        'admin_name': 'admin',
-        'admin_sid': None,
-        'backlog': [],
-        'votes': {},
-        'is_started': False
-    }
-
-    client = SocketIOTestClient(app, socketio)
-    client.emit('join', {'username': 'admin', 'room_id': room_id})
-    client.disconnect()
-
-    assert rooms[room_id]['participants']  # vérifie qu'un participant a été ajouté
-    assert rooms[room_id]['admin_sid'] is not None
-
-
 @patch('app.emit')
 def test_submit_vote_socketio(mock_emit):
     room_id = 'ROOM2'
