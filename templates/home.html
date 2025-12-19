@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--
+@file home.html
+@brief Page d'accueil de l'application Planning Poker
+
+Cette page permet :
+1. De créer une nouvelle session de Planning Poker
+   - En spécifiant le nom de la session
+   - Le pseudo de l'administrateur
+   - La règle de consensus
+   - Le backlog (fichier JSON)
+2. De rejoindre une session existante
+   - En indiquant l'ID de la salle et son pseudo
+
+Le front-end envoie les formulaires vers Flask
+(et ensuite Socket.IO gère les interactions en temps réel).
+-->
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Titre dynamique -->
+    <title>Planning Poker - Accueil</title>
+
+    <!-- Feuille de style générale -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <!-- Titre principal de la page -->
+    <h1>♠️ Bienvenue au Planning Poker en Ligne</h1>
+    
+    <!-- Conteneur principal pour les formulaires -->
+    <div class="container">
+
+        <!-- ===================== FORMULAIRE CREATION ===================== -->
+        <div class="form-box">
+            <h2>Créer une Nouvelle Session</h2>
+            <form method="POST" action="{{ url_for('create_room') }}" enctype="multipart/form-data">
+                
+                <!-- Nom de la session -->
+                <label for="session-name">Nom de la Session :</label>
+                <input type="text" id="session-name" name="session_name"
+                       placeholder="Ex: Sprint 3 - Core Features" required>
+                
+                <!-- Pseudo de l'administrateur -->
+                <label for="admin-name">Nom de l'Admin :</label>
+                <input type="text" id="admin-name" name="username"
+                       placeholder="Ex: Bob (Scrum Master)" required>
+
+                <!-- Type de consensus -->
+                <label for="session-type">Règles de Consensus :</label>
+                <select id="session-type" name="session_type" required>
+                    <option value="strict">Strict</option>
+                    <option value="median">Médiane</option>
+                    <option value="average">Moyenne</option>
+                </select>
+                
+                <!-- Chargement du backlog JSON -->
+                <label for="backlog-file">Charger le Backlog (Fichier JSON) :</label>
+                <input type="file" id="backlog-file" name="backlog_file" accept=".json" required>
+                
+                <!-- Bouton de soumission -->
+                <button type="submit">Créer et Entrer</button>
+            </form>
+        </div>
+
+        <!-- ===================== FORMULAIRE REJOINDRE ===================== -->
+        <div class="form-box">
+            <h2>Rejoindre une Session Existante</h2>
+            <form method="POST" action="{{ url_for('join_existing_room') }}">
+                
+                <!-- Nom de la session (optionnel) -->
+                <label for="join-session-name">Nom de la Session (Optionnel) :</label>
+                <input type="text" id="join-session-name" name="session_name"
+                       placeholder="Ex: Sprint 3">
+                
+                <!-- ID de la salle -->
+                <label for="room-id">ID de la Session :</label>
+                <input type="text" id="room-id" name="room_id"
+                       placeholder="Ex: 5D7B" required>
+                
+                <!-- Pseudo du participant -->
+                <label for="join-username">Votre Pseudo :</label>
+                <input type="text" id="join-username" name="username"
+                       placeholder="Ex: Alice" required>
+                
+                <!-- Bouton de soumission -->
+                <button type="submit">Rejoindre</button>
+            </form>
+        </div>
+            
+    </div>
+
+    <!-- Variables globales (optionnelles si besoin côté JS) -->
+    <script>
+        const ROOM_ID = "{{ room_id }}";
+        const USERNAME = "{{ username }}"; 
+    </script>
+</body>
+</html>
