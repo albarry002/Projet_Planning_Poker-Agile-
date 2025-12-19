@@ -36,8 +36,8 @@ Le code doit tourner directement sur la machine de l'évaluateur. Suivez ces com
 
 ### 1. Cloner le projet
 ```bash
-git clone [https://github.com/VOTRE_PSEUDO/NOM_DU_PROJET.git](https://github.com/VOTRE_PSEUDO/NOM_DU_PROJET.git)
-cd NOM_DU_PROJET
+git clone https://github.com/albarry002/Projet_Planning_Poker-Agile-.git
+cd Projet_Planning_Poker-Agile-
 ```
 
 ### 2. Installation des dépendances
