@@ -1,3 +1,15 @@
+/*
+@file logic.js
+@brief Logique front-end pour la salle de Planning Poker
+@description
+Ce fichier gère :
+- Les contrôles et affichages spécifiques à l'admin
+- La création et le comportement des cartes de vote
+- La mise à jour en temps réel des participants, votes et backlog
+- Le timer et la gestion des rounds
+- L'affichage des résultats de consensus
+*/
+
 let countdownInterval;
 let currentState = {};
 let isAdmin = false;
@@ -226,3 +238,4 @@ window.resetInterfaceForNewRound = resetInterfaceForNewRound;
 window.startTimer = startTimer;
 window.displayConsensusResult = displayConsensusResult;
 window.setupCardDeck = setupCardDeck;
+
