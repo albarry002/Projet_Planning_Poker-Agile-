@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Création d'une partie",
+    "description": "En tant que Scrum Master, je veux pouvoir créer une nouvelle session de Planning Poker afin d'estimer le backlog avec mon équipe."
+  },
+  {
+    "name": "Saisie des joueurs",
+    "description": "En tant qu'utilisateur, je veux saisir le nom des joueurs afin qu'ils puissent participer à la session de Planning Poker."
+  },
+  {
+    "name": "Import du backlog JSON",
+    "description": "En tant que Scrum Master, je veux importer un backlog depuis un fichier JSON afin de gagner du temps lors de la préparation de la session."
+  },
+  {
+    "name": "Vote des joueurs",
+    "description": "En tant que joueur, je veux pouvoir voter à l'aide de cartes afin d'estimer l'effort nécessaire pour réaliser une tâche."
+  },
+  {
+    "name": "Masquage des votes",
+    "description": "En tant que joueur, je veux que les votes soient masqués tant que la révélation n'a pas été déclenchée afin d'éviter l'influence des autres."
+  },
+  {
+    "name": "Révélation des votes",
+    "description": "En tant que Scrum Master, je veux révéler les votes de tous les joueurs afin de discuter des écarts d'estimation."
+  },
+  {
+    "name": "Calcul du consensus",
+    "description": "En tant que système, je veux calculer automatiquement une estimation finale afin d'aider l'équipe à converger vers un consensus."
+  },
+  {
+    "name": "Relancer un vote",
+    "description": "En tant que Scrum Master, je veux pouvoir relancer un vote afin de permettre une nouvelle estimation après discussion."
+  },
+  {
+    "name": "Passage à la tâche suivante",
+    "description": "En tant que Scrum Master, je veux passer à la tâche suivante du backlog afin d'enchaîner les estimations."
+  },
+  {
+    "name": "Export des résultats",
+    "description": "En tant que Scrum Master, je veux exporter les résultats des estimations afin de les conserver ou de les partager."
+  }
+]
