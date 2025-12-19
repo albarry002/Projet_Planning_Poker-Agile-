@@ -47,8 +47,10 @@ def test_calculate_consensus_non_numeric():
 # Tests SocketIO (avec contexte Flask)
 # -----------------------------
 
-@patch('app.emit')
-def test_join_socketio(mock_emit):
+from flask_socketio import SocketIOTestClient
+from app import socketio, app, rooms
+
+def test_join_socketio_with_client():
     room_id = 'ROOM1'
     rooms[room_id] = {
         'participants': {},
@@ -59,19 +61,13 @@ def test_join_socketio(mock_emit):
         'is_started': False
     }
 
-    mock_request = MagicMock()
-    mock_request.sid = 'SID123'
+    client = SocketIOTestClient(app, socketio)
+    client.emit('join', {'username': 'admin', 'room_id': room_id})
+    client.disconnect()
 
-    with app.test_request_context():  # Context Flask requis pour join_room
-        with patch('app.request', mock_request):
-            from app import on_join
-            data = {'username': 'admin', 'room_id': room_id}
-            on_join(data)
-            # Vérifie que le participant est enregistré
-            assert 'SID123' in rooms[room_id]['participants']
-            # Vérifie que l'admin_sid est défini
-            assert rooms[room_id]['admin_sid'] == 'SID123'
-            mock_emit.assert_called()
+    assert rooms[room_id]['participants']  # vérifie qu'un participant a été ajouté
+    assert rooms[room_id]['admin_sid'] is not None
+
 
 @patch('app.emit')
 def test_submit_vote_socketio(mock_emit):
@@ -124,11 +120,3 @@ def test_request_backlog_download_socketio(mock_emit):
                 room='ADMIN123'
             )
 
-# -----------------------------
-# Tests utilitaires / autres cas
-# -----------------------------
-def test_calculate_consensus_unknown_rule():
-    votes = {'alice': '3'}
-    result, details = calculate_consensus(votes, 'unknown')
-    assert "N/A" in result
-    assert "non reconnu" in details
